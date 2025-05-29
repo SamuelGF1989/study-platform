@@ -1,15 +1,29 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# Compiled output
+# Angular compiled output
 /dist
 /tmp
 /out-tsc
-/bazel-out
+/.angular/cache
 
-# Node
+# Firebase emulators and functions (if using Firebase Functions)
+/firebase-debug.log
+/firebase-error.log
+/functions/node_modules
+
+# Node dependencies
 /node_modules
-npm-debug.log
-yarn-error.log
+npm-debug.log*
+yarn-error.log*
+package-lock.json # opcional ignorarlo si no quieres versionarlo
+
+# Environment files
+/src/environments/environment*.ts
+/src/app/config/firebase.config.ts
+
+# Logs
+*.log
+
+# Coverage directory used by testing tools
+/coverage
 
 # IDEs and editors
 .idea/
@@ -19,6 +33,7 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+*.code-workspace
 
 # Visual Studio Code
 .vscode/*
@@ -26,17 +41,21 @@ yarn-error.log
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history/*
 
-# Miscellaneous
-/.angular/cache
-.sass-cache/
-/connect.lock
-/coverage
-/libpeerconnection.log
-testem.log
-/typings
+# Optional: remove history plugin
+.history/
 
-# System files
+# OS generated files
 .DS_Store
 Thumbs.db
+
+# Mac M1
+*.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+ehthumbs.db
+Desktop.ini
+
+# Build artifacts
+/bazel-out
