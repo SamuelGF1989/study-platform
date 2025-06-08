@@ -1,0 +1,85 @@
+<div class="background"></div>
+<div class="corner-image">
+  <img src="assets/girl.png" alt="Decoración" />
+</div>
+<mat-card class="login-card mat-elevation-z8">
+  <mat-card-header class="login-header">
+    <mat-card-title class="login-title">Iniciar Sesión</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="login-form">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label class="email-label">Email</mat-label>
+        <input matInput formControlName="email" type="email" required placeholder="tucorreo@ejemplo.com">
+        <mat-icon matSuffix>email</mat-icon>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          Email es obligatorio
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Por favor ingresa un email válido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label class="contrasenia-label">Contraseña</mat-label>
+        <input matInput formControlName="password"
+               [type]="hidePassword ? 'password' : 'text'" required
+               placeholder="••••••••">
+        <button type="button" mat-icon-button matSuffix
+                (click)="hidePassword = !hidePassword"
+                [attr.aria-label]="hidePassword ? 'Mostrar contraseña' : 'Ocultar contraseña'">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          Contraseña es obligatoria
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('minlength')">
+          Mínimo 6 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="full-width login-button"
+              type="submit" [disabled]="loginForm.invalid || loading">
+        <span *ngIf="!loading">Iniciar Sesión</span>
+        <mat-spinner *ngIf="loading" diameter="24" strokeWidth="3"></mat-spinner>
+      </button>
+    </form>
+
+    <div class="separator">
+      <span class="separator-text">o continúa con</span>
+    </div>
+
+  <button mat-stroked-button class="full-width google-button"
+          (click)="loginWithGoogle()" [disabled]="loading">
+
+    <ng-container *ngIf="!loading; else loadingSpinner">
+      <img src="assets/google.svg" alt="Google" class="google-logo">
+      Continuar con Google
+    </ng-container>
+
+    <ng-template #loadingSpinner>
+      <mat-progress-spinner
+        diameter="24"
+        mode="indeterminate"
+        color="primary"
+        class="spinner-inside-btn">
+      </mat-progress-spinner>
+    </ng-template>
+
+  </button>
+  <p *ngIf="errorMsg" class="error-msg">{{ errorMsg }}</p>
+
+    </mat-card-content>
+
+  <mat-card-actions class="login-actions">
+    <a mat-button routerLink="/forgot-password" color="primary" class="action-link">
+      ¿Olvidaste tu contraseña?
+    </a>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/register" color="accent" class="action-link">
+      Crear cuenta
+    </a>
+  </mat-card-actions>
+</mat-card>
+

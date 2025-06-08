@@ -1,0 +1,32 @@
+<header class="header" *ngIf="currentUser$ | async as user">
+  <div class="greeting">
+    <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
+  </div>
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="user.photoURL ? user.photoURL : defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<main class="main-content">
+  <section class="lessons-grid">
+    <div *ngFor="let lesson of lessons" class="lesson-card">
+      <img [src]="'assets/quiz.png'" alt="{{lesson.title}}" class="lesson-image" />
+      <h2 class="lesson-title">{{ lesson.title }}</h2>
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="lesson.progress"></div>
+      </div>
+      <p class="progress-text">{{ lesson.progress }}% completado</p>
+      <button mat-raised-button color="primary" (click)="viewLesson(lesson.id)">
+        Ver lección
+      </button>
+    </div>
+  </section>
+</main>

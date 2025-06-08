@@ -1,0 +1,132 @@
+.background {
+  height: 100vh; /* toda la altura de la ventana */
+  width: 100vw;  /* todo el ancho */
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #f7a0a0;
+  z-index: -1; /* Para que esté atrás */
+}
+
+.corner-image {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 1;
+  padding: 12px;
+}
+
+.corner-image img {
+  width: 400px; /* ajusta según lo que necesites */
+  height: auto;
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+
+.corner-image img:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.login-card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: #3f51b5;
+}
+
+/* Labels personalizados si los necesitas, puedes agregar clases o usarlos globalmente */
+.mat-form-field-label {
+  color: #000000;
+}
+
+/* Inputs */
+.mat-mdc-input-element {
+  color: #222 !important; /* texto negro más intenso */
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 12px 14px;
+}
+
+/* Placeholder */
+.mat-mdc-input-element::placeholder {
+  color: #666;
+  font-style: italic;
+  opacity: 1;
+}
+
+/* Iconos (mat-icon) dentro de mat-form-field */
+.mat-form-field-suffix .mat-icon {
+  color: #3f51b5;
+}
+
+/* Full width para mat-form-field */
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+/* Botón principal */
+.login-button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+}
+
+/* Efecto hover para botones Mat */
+.mat-raised-button:hover, .mat-stroked-button:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+/* Outline personalizado para mat-form-field */
+.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
+  border-color: #3f51b5;
+  border-width: 2px;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
+  border-color: #1a237e;
+  border-width: 3px;
+}
+
+/* Mensajes de error */
+mat-error {
+  font-size: 0.85rem;
+  color: #d32f2f;
+}
+
+/* Acciones (link debajo del formulario) */
+.login-actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.action-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #3f51b5;
+}
+
+/* Mensaje de error general */
+.error-msg {
+  color: #d32f2f;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 600;
+}

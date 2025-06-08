@@ -1,0 +1,96 @@
+<header class="header" *ngIf="currentUser$ | async as user">
+  <div class="greeting">
+    <h1>Hola, {{ user.displayName || 'Admin' }} 👋 ¿Listo para gestionar contenido?</h1>
+  </div>
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="user.photoURL ? user.photoURL : defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button color="warn" (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<main class="main-content admin-main">
+
+  <!-- Formulario para agregar lección -->
+  <mat-card class="upload-card">
+    <h2>Agregar nueva lección</h2>
+    <form [formGroup]="lessonForm" (ngSubmit)="addLesson()">
+      <mat-form-field appearance="fill">
+        <mat-label>Título de la lección</mat-label>
+        <input matInput formControlName="title" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Explicación de la lección</mat-label>
+        <textarea matInput formControlName="description" rows="4" required></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>URL del video (YouTube, Vimeo...)</mat-label>
+        <input matInput formControlName="videoUrl" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="lessonForm.invalid">
+        Agregar Lección
+      </button>
+    </form>
+  </mat-card>
+
+  <!-- Lista de lecciones -->
+  <section class="lessons-grid">
+    <div *ngFor="let lesson of lessons" class="lesson-card">
+      <h2 class="lesson-title">{{ lesson.title }}</h2>
+
+      <p class="lesson-description">{{ lesson.description }}</p>
+
+      <div class="video-container">
+        <iframe
+          *ngIf="lesson.videoUrl"
+          [src]="lesson.videoUrl | safeUrl"
+          frameborder="0"
+          allowfullscreen
+        ></iframe>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar" [style.width.%]="lesson.progress || 0"></div>
+      </div>
+      <p class="progress-text">{{ lesson.progress || 0 }}% completado</p>
+
+      <button mat-raised-button color="primary" (click)="viewLesson(lesson.id)">
+        Ver lección
+      </button>
+
+      <button mat-stroked-button color="accent" (click)="openAddQuiz(lesson)">
+        Agregar Quiz
+      </button>
+    </div>
+  </section>
+
+  <!-- Formulario para agregar quiz -->
+  <mat-card *ngIf="quizFormVisible" class="quiz-form-card">
+    <h3>Agregar Quiz a: {{ selectedLesson?.title }}</h3>
+    <form [formGroup]="quizForm" (ngSubmit)="addQuiz()">
+      <mat-form-field appearance="fill">
+        <mat-label>Pregunta</mat-label>
+        <input matInput formControlName="question" required />
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Respuesta Correcta</mat-label>
+        <input matInput formControlName="correctAnswer" required />
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid">
+        Agregar Quiz
+      </button>
+      <button mat-button (click)="cancelAddQuiz()" type="button">Cancelar</button>
+    </form>
+  </mat-card>
+
+</main>

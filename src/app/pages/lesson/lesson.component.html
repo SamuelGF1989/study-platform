@@ -1,0 +1,42 @@
+<header class="header" *ngIf="currentUser$ | async as user">
+  <div class="greeting">
+    <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
+  </div>
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="user.photoURL ? user.photoURL : defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<div *ngIf="lesson$ | async as lesson; else loading">
+  <h1>{{ lesson.title }}</h1>
+  <p>{{ lesson.description }}</p>
+
+  <iframe
+    [src]="safeVideoUrl"
+    width="560"
+    height="315"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+
+  <button
+    mat-raised-button
+    color="primary"
+    [disabled]="!isFinishButtonEnabled || isLessonCompleted"
+    (click)="finalizarLeccion()"
+  >
+    {{ isLessonCompleted ? 'Lección completada' : 'Finalizar lección' }}
+  </button>
+</div>
+
+<ng-template #loading>
+  <p>Cargando lección...</p>
+</ng-template>
