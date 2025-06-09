@@ -36,6 +36,39 @@
         <input matInput formControlName="videoUrl" required />
       </mat-form-field>
 
+      <section formArrayName="quizzes" class="quizzes-section">
+        <h3>Quizzes</h3>
+        <button mat-stroked-button color="accent" type="button" (click)="addQuiz()">+ Agregar Quiz</button>
+
+        <div *ngFor="let quiz of quizzes.controls; let i = index" [formGroupName]="i" class="quiz-card">
+
+          <mat-form-field appearance="fill" class="quiz-question">
+            <mat-label>Pregunta</mat-label>
+            <input matInput formControlName="question" required />
+          </mat-form-field>
+
+          <div formArrayName="options" class="quiz-options">
+            <h4>Opciones</h4>
+            <button mat-mini-button color="primary" type="button" (click)="addOption(i)">+ Agregar Opción</button>
+
+            <div *ngFor="let option of getOptions(i).controls; let j = index" class="option-item" style="display:flex; align-items:center; gap: 8px; margin-bottom: 8px;">
+              <input matInput [formControlName]="j" placeholder="Opción {{ j + 1 }}" required />
+              <button mat-icon-button color="warn" type="button" (click)="removeOption(i, j)" aria-label="Eliminar opción">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+          </div>
+
+          <mat-form-field appearance="fill" class="correct-answer">
+            <mat-label>Respuesta Correcta</mat-label>
+            <input matInput formControlName="correctAnswer" required />
+          </mat-form-field>
+
+          <button mat-button color="warn" type="button" (click)="removeQuiz(i)">Eliminar Quiz</button>
+          <hr />
+        </div>
+      </section>
+
       <button mat-raised-button color="primary" type="submit" [disabled]="lessonForm.invalid">
         Agregar Lección
       </button>
@@ -66,31 +99,7 @@
       <button mat-raised-button color="primary" (click)="viewLesson(lesson.id)">
         Ver lección
       </button>
-
-      <button mat-stroked-button color="accent" (click)="openAddQuiz(lesson)">
-        Agregar Quiz
-      </button>
     </div>
   </section>
-
-  <!-- Formulario para agregar quiz -->
-  <mat-card *ngIf="quizFormVisible" class="quiz-form-card">
-    <h3>Agregar Quiz a: {{ selectedLesson?.title }}</h3>
-    <form [formGroup]="quizForm" (ngSubmit)="addQuiz()">
-      <mat-form-field appearance="fill">
-        <mat-label>Pregunta</mat-label>
-        <input matInput formControlName="question" required />
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Respuesta Correcta</mat-label>
-        <input matInput formControlName="correctAnswer" required />
-      </mat-form-field>
-
-      <button mat-raised-button color="primary" type="submit" [disabled]="quizForm.invalid">
-        Agregar Quiz
-      </button>
-      <button mat-button (click)="cancelAddQuiz()" type="button">Cancelar</button>
-    </form>
-  </mat-card>
 
 </main>

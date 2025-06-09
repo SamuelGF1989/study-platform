@@ -1,10 +1,173 @@
 .background {
-  height: 100vh; /* toda la altura de la ventana */
-  width: 100vw;  /* todo el ancho */
+  height: 100vh;
+  width: 100vw;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #f7a0a0;
-  z-index: -1; /* Para que esté atrás */
+  background-color: #ffffff; /* blanco puro */
+  z-index: -1;
+}
+
+.corner-image img {
+  width: 400px;
+  height: auto;
+  opacity: 0.9;
+  transition: transform 0.3s ease;
+}
+
+.corner-image img:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.login-card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1974a2;
+}
+
+.email-label,
+.contrasenia-label,
+.mat-mdc-floating-label {
+  color: #1974a2 !important;
+  font-weight: 600;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.login-button {
+  background-color: #1974a2;
+  color: white;
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #145a7e;
+}
+
+.google-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 16px;
+  color: #1974a2;
+  font-weight: 500;
+  font-family: 'Roboto', sans-serif;
+  border: 2px solid #1974a2;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  height: 48px;
+}
+
+.google-button:hover {
+  background-color: #e3f2fd;
+}
+
+.google-logo {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+}
+
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 1.5rem 0;
+  color: #999;
+}
+
+.separator::before,
+.separator::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #ccc;
+}
+
+.separator-text {
+  padding: 0 1rem;
+  font-size: 0.9rem;
+}
+
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.action-link {
+  text-decoration: none;
+  font-weight: 500;
+  color: #1974a2;
+}
+
+.action-link:hover {
+  text-decoration: underline;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
+  border-color: #1974a2;
+  border-width: 2px;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
+  border-color: #145a7e;
+  border-width: 3px;
+}
+
+.mat-mdc-input-element::placeholder {
+  color: #aaa;
+  font-style: italic;
+  opacity: 1;
+}
+
+.mat-mdc-input-element {
+  color: #222;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 12px 14px;
+}
+
+.mat-form-field-suffix .mat-icon {
+  color: #1974a2;
+}
+
+.mat-raised-button:hover,
+.mat-stroked-button:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+.error-msg {
+  color: #d32f2f;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
 }
 
 .corner-image {
@@ -27,174 +190,86 @@
   opacity: 1;
 }
 
-.login-card {
-  max-width: 420px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border-radius: 12px;
-  background-color: rgba(255, 255, 255);
-}
-
-.login-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.login-title {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #3f51b5;
-}
-
-.email-label{
-  color: #000000;
-}
-
-.contrasenia-label{
-  color: #000000;
-}
-
-.mat-mdc-input-element {
-  color: black !important;
-}
-
-.full-width {
-  width: 100%;
-  margin-bottom: 1.25rem;
-}
-
-.login-button {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-top: 0.5rem;
-}
-
-.google-button {
+/* Logo arriba del login */
+.login-logo {
   display: flex;
   justify-content: center;
-  align-items: center;
-  padding: 10px 16px;
-  color: #000000; // ← texto negro desde el inicio
-  font-weight: 500;
-  font-family: 'Roboto', sans-serif;
-  border: 2px solid #000000; // ← borde negro desde el inicio
-  transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s;
-  height: 48px;
-  background-color: #f5cdcd;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border: 2px;
-  border-color: #000000;
-  color: #000000;
-
-  &:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-
-  .google-content {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .google-logo {
-    width: 20px;
-    height: 20px;
-    margin-top: 2px;
-  }
-
-  .google-spinner-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-  }
+  margin-top: 2rem;
+  margin-bottom: -1rem;
 }
 
-
-
-.google-logo {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
+.login-logo img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
 }
 
-.separator {
-  display: flex;
-  align-items: center;
-  margin: 1.5rem 0;
-  color: #757575;
+/* Fondo principal azul */
+.background {
+  background-color: #1974a2;
 }
 
-.separator::before, .separator::after {
-  content: "";
-  flex: 1;
-  border-bottom: 1px solid #e0e0e0;
+/* Tarjeta blanca con sombra suave */
+.login-card {
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.separator-text {
-  padding: 0 1rem;
-  font-size: 0.9rem;
+/* Título en color principal */
+.login-title {
+  color: #1974a2;
 }
 
-.login-actions {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-}
-
-.action-link {
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.spacer {
-  flex: 1;
-}
-
-/* Efecto hover para los botones */
-.mat-raised-button:hover, .mat-stroked-button:hover {
-  transform: translateY(-1px);
-  transition: transform 0.2s ease;
-}
-
-
-/* Aplica un estilo personalizado solo a los inputs dentro de mat-form-field */
-.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
-  border-color: #3f51b5; /* color del borde normal */
-  border-width: 2px;
-  border-radius: 8px; /* bordes redondeados */
-  transition: border-color 0.3s ease;
-}
-
-/* Cambia el borde al hacer focus */
-.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
-  border-color: #1a237e; /* un azul más oscuro para foco */
-  border-width: 3px;
-}
-
-/* Placeholder color y estilo */
-.mat-mdc-input-element::placeholder {
-  color: #666; /* gris suave */
-  font-style: italic;
-  opacity: 1; /* para que se vea bien en todos los navegadores */
-}
-
-/* Texto del input */
-.mat-mdc-input-element {
-  color: #222; /* texto negro más intenso */
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 12px 14px;
-}
-
-/* Icono (mat-icon) color */
-.mat-form-field-suffix .mat-icon {
-  color: #3f51b5;
-}
-
-/* Cambiar el label para que tenga más contraste */
+/* Etiquetas de campos */
+.email-label,
+.contrasenia-label,
 .mat-mdc-floating-label {
-  color: #3f51b5;
+  color: #1974a2;
   font-weight: 600;
 }
+
+/* Bordes y focus */
+.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
+  border-color: #1974a2;
+}
+.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
+  border-color: #135c80;
+}
+
+/* Iconos */
+.mat-form-field-suffix .mat-icon {
+  color: #1974a2;
+}
+
+/* Botón de inicio de sesión */
+.login-button {
+  background-color: #1974a2;
+  color: white;
+}
+.login-button:hover {
+  background-color: #135c80;
+}
+
+/* Google button */
+.google-button {
+  border-color: #1974a2;
+  color: #1974a2;
+  background-color: #ffffff;
+}
+.google-button:hover {
+  background-color: #e6f0f7;
+}
+
+/* Enlaces de acciones */
+.action-link {
+  color: #1974a2 !important;
+}
+
+/* Separador */
+.separator {
+  color: #1974a2;
+}
+.separator::before, .separator::after {
+  border-color: #1974a2;
+}
+

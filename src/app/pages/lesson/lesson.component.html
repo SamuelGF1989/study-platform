@@ -1,7 +1,10 @@
 <header class="header" *ngIf="currentUser$ | async as user">
+  <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
+
   <div class="greeting">
     <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
   </div>
+
   <div class="avatar" (click)="toggleLogoutCard()">
     <img
       [src]="user.photoURL ? user.photoURL : defaultAvatar"
@@ -15,28 +18,55 @@
   </mat-card>
 </header>
 
-<div *ngIf="lesson$ | async as lesson; else loading">
-  <h1>{{ lesson.title }}</h1>
-  <p>{{ lesson.description }}</p>
+<!-- Menú hamburguesa lateral -->
+<nav class="side-menu" [class.open]="menuOpen">
+  <ul>
+    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
+    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+  </ul>
+</nav>
 
-  <iframe
-    [src]="safeVideoUrl"
-    width="560"
-    height="315"
-    frameborder="0"
-    allowfullscreen>
-  </iframe>
+<!-- Overlay para cerrar menú cuando está abierto -->
+<div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
 
-  <button
-    mat-raised-button
-    color="primary"
-    [disabled]="!isFinishButtonEnabled || isLessonCompleted"
-    (click)="finalizarLeccion()"
-  >
-    {{ isLessonCompleted ? 'Lección completada' : 'Finalizar lección' }}
-  </button>
+<div *ngIf="lesson$ | async as lesson; else loading" class="lesson-container">
+  <section class="lesson-info">
+    <h1 class="lesson-title">{{ lesson.title }}</h1>
+    <p class="lesson-description">{{ lesson.description }}</p>
+  </section>
+
+  <section class="video-wrapper" style="margin-top: 1.5rem;">
+    <iframe
+      [src]="safeVideoUrl"
+      width="560"
+      height="315"
+      frameborder="0"
+      allowfullscreen
+      title="Video de la lección"
+    ></iframe>
+  </section>
+
+  <section class="lesson-actions">
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!isFinishButtonEnabled || isLessonCompleted"
+      (click)="finalizarLeccion()"
+      class="finish-lesson-btn"
+    >
+      {{ isLessonCompleted ? 'Lección completada' : 'Finalizar lección' }}
+    </button>
+  </section>
+
+  <section class="quizz-section" *ngIf="lesson.quizzes && lesson.quizzes.length > 0; else noQuizzes">
+    <app-quizz [quizzes]="lesson.quizzes"></app-quizz>
+  </section>
+
+  <ng-template #noQuizzes>
+    <p class="no-quizzes-msg">No hay quizzes disponibles para esta lección.</p>
+  </ng-template>
 </div>
 
 <ng-template #loading>
-  <p>Cargando lección...</p>
+  <p class="loading-msg">Cargando lección...</p>
 </ng-template>

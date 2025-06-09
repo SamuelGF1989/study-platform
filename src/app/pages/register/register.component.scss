@@ -1,10 +1,10 @@
 .background {
-  height: 100vh; /* toda la altura de la ventana */
-  width: 100vw;  /* todo el ancho */
+  height: 100vh;
+  width: 100vw;
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #f7a0a0;
-  z-index: -1; /* Para que esté atrás */
+  background-color: #1974a2; /* azul claro */
+  z-index: -1;
 }
 
 .corner-image {
@@ -16,7 +16,7 @@
 }
 
 .corner-image img {
-  width: 400px; /* ajusta según lo que necesites */
+  width: 400px;
   height: auto;
   opacity: 0.9;
   transition: transform 0.3s ease;
@@ -33,83 +33,92 @@
   padding: 2rem;
   border-radius: 12px;
   background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 8px 16px rgba(63, 81, 181, 0.15);
 }
 
-.login-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
+/* Campos de formulario con texto visible y buen espaciado */
+.login-card .mat-form-field-label {
+  color: #1a237e !important; /* Azul oscuro */
+  font-weight: 600;
+  font-size: 1rem;
 }
 
-.login-title {
-  font-size: 1.8rem;
-  font-weight: 500;
-  color: #3f51b5;
-}
-
-/* Labels personalizados si los necesitas, puedes agregar clases o usarlos globalmente */
-.mat-form-field-label {
-  color: #000000;
-}
-
-/* Inputs */
-.mat-mdc-input-element {
-  color: #222 !important; /* texto negro más intenso */
+.login-card .mat-mdc-input-element {
+  color: #1a237e !important; /* Texto azul oscuro */
   font-weight: 500;
   font-size: 1rem;
-  padding: 12px 14px;
+  padding: 14px 16px !important;
+  line-height: 1.4;
 }
 
-/* Placeholder */
-.mat-mdc-input-element::placeholder {
-  color: #666;
+.login-card .mat-mdc-input-element::placeholder {
+  color: #5c6bc0 !important;
   font-style: italic;
-  opacity: 1;
+  opacity: 1 !important;
+  font-size: 1rem;
+  line-height: 1.4;
 }
 
-/* Iconos (mat-icon) dentro de mat-form-field */
-.mat-form-field-suffix .mat-icon {
+.login-card .mat-form-field-suffix .mat-icon {
   color: #3f51b5;
 }
 
-/* Full width para mat-form-field */
-.full-width {
-  width: 100%;
-  margin-bottom: 1.25rem;
-}
-
-/* Botón principal */
-.login-button {
-  padding: 0.5rem;
-  font-size: 1rem;
-  margin-top: 0.5rem;
-}
-
-/* Efecto hover para botones Mat */
-.mat-raised-button:hover, .mat-stroked-button:hover {
-  transform: translateY(-1px);
-  transition: transform 0.2s ease;
-}
-
-/* Outline personalizado para mat-form-field */
-.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
+.login-card .mat-form-field-appearance-outline .mat-mdc-form-field-outline {
   border-color: #3f51b5;
   border-width: 2px;
   border-radius: 8px;
   transition: border-color 0.3s ease;
 }
 
-.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
+.login-card .mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
   border-color: #1a237e;
   border-width: 3px;
 }
 
-/* Mensajes de error */
-mat-error {
-  font-size: 0.85rem;
-  color: #d32f2f;
+/* Evitar que el texto se encime */
+.login-card .mat-mdc-form-field-flex {
+  padding: 0 12px !important;
 }
 
-/* Acciones (link debajo del formulario) */
+.login-card .mat-mdc-form-field-wrapper {
+  min-height: 56px !important;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1.25rem;
+}
+
+.login-button {
+  padding: 0.5rem;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  background-color: #1974a2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #135c80;
+}
+
+.mat-raised-button:hover,
+.mat-stroked-button:hover {
+  transform: translateY(-1px);
+  transition: transform 0.2s ease;
+}
+
+mat-error, .error-msg {
+  font-size: 0.85rem;
+  color: #d32f2f;
+  font-weight: 600;
+  margin-top: 1rem;
+  text-align: center;
+}
+
 .login-actions {
   display: flex;
   justify-content: flex-end;
@@ -123,10 +132,19 @@ mat-error {
   color: #3f51b5;
 }
 
-/* Mensaje de error general */
-.error-msg {
-  color: #d32f2f;
-  margin-top: 1rem;
-  text-align: center;
-  font-weight: 600;
+.action-link:hover {
+  text-decoration: underline;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: -1rem;
+}
+
+.login-logo img {
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
 }

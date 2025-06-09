@@ -10,20 +10,21 @@ import { User } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { firstValueFrom } from 'rxjs';
+import { QuizzComponent } from '../quizz/quizz.component';
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [CommonModule, MatCardModule,QuizzComponent],
 })
 export class LessonComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private lessonService = inject(LessonService);
   private sanitizer = inject(DomSanitizer);
   private authService = inject(AuthService);
-  private router = inject(Router);
+  public router = inject(Router);
 
   lesson$!: Observable<Lesson | undefined>;
   safeVideoUrl!: SafeResourceUrl;
@@ -37,6 +38,7 @@ export class LessonComponent implements OnInit, OnDestroy {
   currentLesson?: Lesson;
   isFinishButtonEnabled = false;
   isLessonCompleted = false;
+    menuOpen = false;
 
   ngOnInit() {
     this.lesson$ = this.route.params.pipe(
@@ -113,4 +115,11 @@ async finalizarLeccion() {
         console.error('Error al cerrar sesión:', err);
       });
   }
+    toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+}
+
+closeMenu() {
+  this.menuOpen = false;
+}
 }

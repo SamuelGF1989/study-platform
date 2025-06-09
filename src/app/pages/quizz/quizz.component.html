@@ -1,0 +1,36 @@
+<ng-container *ngIf="quizzes && currentIndex < quizzes.length; else noQuizzes">
+
+  <h3>{{ quizzes[currentIndex].question }}</h3>
+
+  <ul>
+    <li *ngFor="let option of quizzes[currentIndex].options">
+      <button
+        [class.selected]="selectedAnswer === option"
+        (click)="selectAnswer(option)"
+        [disabled]="selectedAnswer !== null"
+      >
+        {{ option }}
+      </button>
+    </li>
+  </ul>
+
+  <div *ngIf="selectedAnswer !== null">
+    <p *ngIf="isAnswerCorrect" style="color: green;">¡Respuesta correcta! ✅</p>
+    <p *ngIf="isAnswerCorrect === false" style="color: red;">
+      Respuesta incorrecta ❌. La respuesta correcta es: {{ quizzes[currentIndex].correctAnswer }}
+    </p>
+
+    <button (click)="nextQuestion()">Siguiente</button>
+  </div>
+
+</ng-container>
+
+<ng-template #noQuizzes>
+  <p>No hay quizzes disponibles.</p>
+</ng-template>
+
+<!-- Mostrar puntaje al terminar -->
+<div *ngIf="quizzes && currentIndex >= quizzes.length">
+  <p>¡Has terminado! Tu puntaje es {{ score }} de {{ quizzes.length }}</p>
+  <button (click)="restart()">Reiniciar quiz</button>
+</div>

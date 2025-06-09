@@ -5,6 +5,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { AuthRedirectGuard } from './guards/auth-redirect.guard';
 import { adminGuard } from './guards/admin.guard';
 import { LessonComponent } from './pages/lesson/lesson.component';
+import { VideosComponent } from './pages/videos/videos.component';
 
 export const routes: Routes = [
   {
@@ -14,6 +15,7 @@ export const routes: Routes = [
   },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent } ,
+  { path: 'videos', component: VideosComponent },
   {path:'register',component: RegisterComponent},
   {
   path: 'admin',

@@ -1,7 +1,10 @@
 <header class="header" *ngIf="currentUser$ | async as user">
+  <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
+
   <div class="greeting">
     <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
   </div>
+
   <div class="avatar" (click)="toggleLogoutCard()">
     <img
       [src]="user.photoURL ? user.photoURL : defaultAvatar"
@@ -14,6 +17,17 @@
     <button mat-button (click)="logout()">Cerrar sesión</button>
   </mat-card>
 </header>
+
+<!-- Menú hamburguesa lateral -->
+<nav class="side-menu" [class.open]="menuOpen">
+  <ul>
+    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
+    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+  </ul>
+</nav>
+
+<!-- Overlay para cerrar menú cuando está abierto -->
+<div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
 
 <main class="main-content">
   <section class="lessons-grid">

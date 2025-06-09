@@ -18,12 +18,13 @@ import { Lesson } from '../../models/lesson.model';
 export class HomeComponent implements OnInit {
   private authService = inject(AuthService);
   private lessonService = inject(LessonService);
-  private router = inject(Router);
+  public router = inject(Router);
 
   currentUser$: Observable<User | null> = this.authService.currentUser$;
   lessons: Lesson[] = [];
   defaultAvatar = 'assets/profile.png';
   showLogoutCard = false;
+  menuOpen = false;
 
   ngOnInit() {
     this.currentUser$.subscribe(user => {
@@ -72,4 +73,12 @@ export class HomeComponent implements OnInit {
   viewLesson(lessonId: string) {
     this.router.navigate(['/lesson', lessonId]);
   }
+
+  toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+}
+
+closeMenu() {
+  this.menuOpen = false;
+}
 }
