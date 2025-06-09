@@ -57,7 +57,7 @@ export class LessonComponent implements OnInit, OnDestroy {
                 this.isFinishButtonEnabled = false;
                 this.timerId = setTimeout(() => {
                   this.isFinishButtonEnabled = true;
-                }, 3000); // 5 minutos
+                }, 300); // 5 minutos
               }
             }
             return lesson;
@@ -83,7 +83,7 @@ async finalizarLeccion() {
     const user = await firstValueFrom(this.currentUser$);
     if (!user || !this.currentLesson) return;
 
-    await this.lessonService.updateUserLessonProgress(user.uid, this.currentLesson.id!, 100);
+    await this.lessonService.updateLessonProgress(this.currentLesson.id!, 100);
     this.isLessonCompleted = true;
     this.router.navigate(['/home']);
   } catch (err) {

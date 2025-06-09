@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
-import { lastValueFrom,take } from 'rxjs';
+import { lastValueFrom, take } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -36,16 +36,17 @@ export class LoginComponent {
   loginForm: FormGroup;
   errorMsg: string | null = null;
   loading = false;
-  hidePassword = true;  // <-- Agregado
+  hidePassword = true;
 
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]] // <-- minlength agregado
+      password: ['', [Validators.required, Validators.minLength(6)]]
     });
   }
 
-  async onLogin() {
+  // En tu login.component.ts
+async onLogin() {
   if (this.loginForm.invalid) return;
 
   this.loading = true;
@@ -53,21 +54,31 @@ export class LoginComponent {
 
   try {
     const { email, password } = this.loginForm.value;
-    const user = await lastValueFrom(this.authService.loginEmailPassword(email, password));
-    if (!user) throw new Error('Usuario no encontrado');
 
-    const appUser = await lastValueFrom(this.authService.getUserData(user.uid).pipe(take(1)));
+    // 1. Autenticar al usuario
+    const userCredential = await lastValueFrom(
+      this.authService.loginEmailPassword(email, password).pipe(take(1))
+    );
 
-    console.log('ROL DEL USUARIO:', appUser?.role); // <-- Aquí el debug
+    if (!userCredential) throw new Error('Usuario no encontrado');
 
+    // 2. Obtener datos del usuario
+    const appUser = await lastValueFrom(
+      this.authService.getUserData(userCredential.uid).pipe(take(1))
+    );
+
+    console.log('ROL DEL USUARIO:', appUser?.role);
+
+    // 3. Redirección basada en el rol
     if (appUser?.role === 'admin') {
-      this.router.navigate(['/admin']);
+      await this.router.navigate(['/admin']);
     } else {
-      this.router.navigate(['/home']);
+      await this.router.navigate(['/home']);
     }
+
   } catch (err: any) {
+    console.error('Error en login:', err);
     this.errorMsg = this.getFriendlyError(err.code || err.message);
-    console.error('Login error:', err);
   } finally {
     this.loading = false;
   }
@@ -78,11 +89,16 @@ export class LoginComponent {
     this.errorMsg = null;
 
     try {
-      await this.authService.loginWithGoogle().toPromise();
-      this.router.navigate(['/home']);
+      const userCredential = await lastValueFrom(
+        this.authService.loginWithGoogle().pipe(take(1))
+      );
+
+      // Redirección directa sin esperar datos adicionales
+      this.router.navigateByUrl('/home', { replaceUrl: true });
+
     } catch (err: any) {
-      this.errorMsg = this.getFriendlyError(err.code);
-      console.error('Google login error:', err);
+      console.error('Error en Google Sign-In:', err);
+      this.errorMsg = this.getFriendlyError(err.code || err.message);
     } finally {
       this.loading = false;
     }

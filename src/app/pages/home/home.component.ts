@@ -26,14 +26,31 @@ export class HomeComponent implements OnInit {
   showLogoutCard = false;
 
   ngOnInit() {
-    // Suscribirse a la colección de lecciones
-    this.lessonService.getLessons().subscribe({
-      next: (lessons) => {
-        this.lessons = lessons;
-      },
-      error: (err) => {
-        console.error('Error al cargar las lecciones:', err);
-      }
+    this.currentUser$.subscribe(user => {
+      if (!user?.uid) return;
+
+      this.lessonService.getLessons().subscribe({
+        next: (lessons) => {
+          this.lessonService.getAllUserLessonsProgress(user.uid).subscribe({
+            next: (progressMap) => {
+              this.lessons = lessons.map(lesson => ({
+                ...lesson,
+                progress: progressMap[lesson.id] || 0
+              }));
+            },
+            error: (err) => {
+              console.error('Error al obtener progreso:', err);
+              this.lessons = lessons.map(lesson => ({
+                ...lesson,
+                progress: 0
+              }));
+            }
+          });
+        },
+        error: (err) => {
+          console.error('Error al cargar las lecciones:', err);
+        }
+      });
     });
   }
 
@@ -53,6 +70,6 @@ export class HomeComponent implements OnInit {
   }
 
   viewLesson(lessonId: string) {
-  this.router.navigate(['/lesson', lessonId]);
+    this.router.navigate(['/lesson', lessonId]);
   }
 }
