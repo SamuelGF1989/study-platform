@@ -15,13 +15,16 @@
   </ul>
 
   <div *ngIf="selectedAnswer !== null">
-    <p *ngIf="isAnswerCorrect" style="color: green;">¡Respuesta correcta! ✅</p>
-    <p *ngIf="isAnswerCorrect === false" style="color: red;">
-      Respuesta incorrecta ❌. La respuesta correcta es: {{ quizzes[currentIndex].correctAnswer }}
-    </p>
+  <p *ngIf="isAnswerCorrect" style="color: green;">¡Respuesta correcta! ✅</p>
+  <p *ngIf="isAnswerCorrect === false" style="color: red;">
+    Respuesta incorrecta ❌. La respuesta correcta es: {{ quizzes[currentIndex].correctAnswer }}
+  </p>
 
-    <button (click)="nextQuestion()">Siguiente</button>
-  </div>
+  <p><em>{{ fraseMotivadora }}</em></p>
+
+  <button (click)="nextQuestion()">Siguiente</button>
+</div>
+
 
 </ng-container>
 

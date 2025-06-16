@@ -1,105 +1,92 @@
 <header class="header" *ngIf="currentUser$ | async as user">
   <div class="greeting">
-    <h1>Hola, {{ user.displayName || 'Admin' }} 👋 ¿Listo para gestionar contenido?</h1>
+    <h1>Hola, {{ user.displayName || 'Admin' }} 👋 Panel de Gestión de Lecciones</h1>
   </div>
   <div class="avatar" (click)="toggleLogoutCard()">
-    <img
-      [src]="user.photoURL ? user.photoURL : defaultAvatar"
-      alt="Avatar"
-      class="avatar-image"
-    />
+    <img [src]="user.photoURL ? user.photoURL : defaultAvatar" alt="Avatar" class="avatar-image" />
   </div>
 
-  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
-    <button mat-button color="warn" (click)="logout()">Cerrar sesión</button>
-  </mat-card>
+  <div *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button class="btn-logout" (click)="logout()">Cerrar sesión</button>
+  </div>
 </header>
 
 <main class="main-content admin-main">
+  <section class="upload-card">
+    <h2>Crear Nueva Lección</h2>
 
-  <!-- Formulario para agregar lección -->
-  <mat-card class="upload-card">
-    <h2>Agregar nueva lección</h2>
-    <form [formGroup]="lessonForm" (ngSubmit)="addLesson()">
-      <mat-form-field appearance="fill">
-        <mat-label>Título de la lección</mat-label>
-        <input matInput formControlName="title" required />
-      </mat-form-field>
+    <form [formGroup]="lessonForm" (ngSubmit)="addLesson()" class="custom-form">
 
-      <mat-form-field appearance="fill">
-        <mat-label>Explicación de la lección</mat-label>
-        <textarea matInput formControlName="description" rows="4" required></textarea>
-      </mat-form-field>
+      <label for="title">Título de la lección</label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        required
+        placeholder="Ej: Introducción a JavaScript"
+      />
+      <small class="form-hint">Título descriptivo que identifique la lección</small>
 
-      <mat-form-field appearance="fill">
-        <mat-label>URL del video (YouTube, Vimeo...)</mat-label>
-        <input matInput formControlName="videoUrl" required />
-      </mat-form-field>
+      <label for="description">Descripción</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        rows="3"
+        required
+        placeholder="Breve descripción del contenido de la lección"
+      ></textarea>
 
+      <label for="videoUrl">URL del vídeo</label>
+      <input
+        id="videoUrl"
+        type="url"
+        formControlName="videoUrl"
+        required
+        placeholder="https://www.youtube.com/watch?v=..."
+      />
+      <small class="form-hint">Pega la URL de YouTube, Vimeo u otro servicio compatible</small>
+
+      <!-- Sección de quizzes (ejemplo simple, adapta según tu lógica) -->
       <section formArrayName="quizzes" class="quizzes-section">
-        <h3>Quizzes</h3>
-        <button mat-stroked-button color="accent" type="button" (click)="addQuiz()">+ Agregar Quiz</button>
+        <h3>Preguntas de Evaluación</h3>
+        <button type="button" class="btn-add-quiz" (click)="addQuiz()">
+          + Agregar Pregunta
+        </button>
 
         <div *ngFor="let quiz of quizzes.controls; let i = index" [formGroupName]="i" class="quiz-card">
+          <label for="question-{{i}}">Pregunta {{ i + 1 }}</label>
+          <input id="question-{{i}}" type="text" formControlName="question" required />
 
-          <mat-form-field appearance="fill" class="quiz-question">
-            <mat-label>Pregunta</mat-label>
-            <input matInput formControlName="question" required />
-          </mat-form-field>
-
-          <div formArrayName="options" class="quiz-options">
+          <div formArrayName="options" class="options-container">
             <h4>Opciones</h4>
-            <button mat-mini-button color="primary" type="button" (click)="addOption(i)">+ Agregar Opción</button>
-
-            <div *ngFor="let option of getOptions(i).controls; let j = index" class="option-item" style="display:flex; align-items:center; gap: 8px; margin-bottom: 8px;">
-              <input matInput [formControlName]="j" placeholder="Opción {{ j + 1 }}" required />
-              <button mat-icon-button color="warn" type="button" (click)="removeOption(i, j)" aria-label="Eliminar opción">
-                <mat-icon>delete</mat-icon>
-              </button>
+            <div *ngFor="let option of getOptions(i).controls; let j = index" class="option-item">
+              <input
+                [id]="'option-' + i + '-' + j"
+                type="text"
+                [formControlName]="j"
+                placeholder="Opción {{ j + 1 }}"
+                required
+              />
+              <button type="button" class="btn-delete" (click)="removeOption(i, j)">✕</button>
             </div>
+            <button type="button" class="btn-add-option" (click)="addOption(i)">+ Agregar Opción</button>
           </div>
 
-          <mat-form-field appearance="fill" class="correct-answer">
-            <mat-label>Respuesta Correcta</mat-label>
-            <input matInput formControlName="correctAnswer" required />
-          </mat-form-field>
+          <label for="correctAnswer-{{i}}">Respuesta Correcta</label>
+          <input
+            id="correctAnswer-{{i}}"
+            type="text"
+            formControlName="correctAnswer"
+            required
+          />
 
-          <button mat-button color="warn" type="button" (click)="removeQuiz(i)">Eliminar Quiz</button>
-          <hr />
+          <button type="button" class="btn-delete-quiz" (click)="removeQuiz(i)">Eliminar Pregunta</button>
         </div>
       </section>
 
-      <button mat-raised-button color="primary" type="submit" [disabled]="lessonForm.invalid">
-        Agregar Lección
+      <button type="submit" [disabled]="lessonForm.invalid" class="btn-primary">
+        Guardar Lección
       </button>
     </form>
-  </mat-card>
-
-  <!-- Lista de lecciones -->
-  <section class="lessons-grid">
-    <div *ngFor="let lesson of lessons" class="lesson-card">
-      <h2 class="lesson-title">{{ lesson.title }}</h2>
-
-      <p class="lesson-description">{{ lesson.description }}</p>
-
-      <div class="video-container">
-        <iframe
-          *ngIf="lesson.videoUrl"
-          [src]="lesson.videoUrl | safeUrl"
-          frameborder="0"
-          allowfullscreen
-        ></iframe>
-      </div>
-
-      <div class="progress-bar-container">
-        <div class="progress-bar" [style.width.%]="lesson.progress || 0"></div>
-      </div>
-      <p class="progress-text">{{ lesson.progress || 0 }}% completado</p>
-
-      <button mat-raised-button color="primary" (click)="viewLesson(lesson.id)">
-        Ver lección
-      </button>
-    </div>
   </section>
-
 </main>

@@ -1,10 +1,6 @@
 <header class="header" *ngIf="currentUser$ | async as user">
   <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
 
-  <div class="greeting">
-    <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
-  </div>
-
   <div class="avatar" (click)="toggleLogoutCard()">
     <img
       [src]="user.photoURL ? user.photoURL : defaultAvatar"
@@ -23,6 +19,7 @@
   <ul>
     <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
     <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+    <li><a (click)="router.navigate(['/resources']); closeMenu()">Recursos</a></li>
   </ul>
 </nav>
 
@@ -30,6 +27,36 @@
 <div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
 
 <main class="main-content">
+  <div class="user-greeting" *ngIf="currentUser$ | async as user">
+    <h1>Hola, {{ user.displayName || 'Usuario' }} 💤 ¿Listo para aprender algo nuevo hoy?</h1>
+  </div>
+
+  <!-- Sección Consejo del día -->
+  <section class="daily-advice">
+    <mat-card>
+      <h3>Consejo del día 💡</h3>
+      <p>{{ consejoDelDia }}</p>
+      <button mat-raised-button color="accent" (click)="mostrarConsejoAleatorio()">
+        Otro consejo
+      </button>
+    </mat-card>
+  </section>
+
+  <!-- Progreso general -->
+<section class="general-progress" *ngIf="lessons.length > 0">
+  <mat-card class="progress-card">
+    <h3>Progreso General 📊</h3>
+    <mat-progress-bar
+      mode="determinate"
+      [value]="progresoGeneral"
+      color="accent"
+      class="custom-progress-bar">
+    </mat-progress-bar>
+    <p class="progress-label">{{ progresoGeneral | number:'1.0-0' }}% completado en total</p>
+  </mat-card>
+</section>
+
+
   <section class="lessons-grid">
     <div *ngFor="let lesson of lessons" class="lesson-card">
       <img [src]="'assets/quiz.png'" alt="{{lesson.title}}" class="lesson-image" />

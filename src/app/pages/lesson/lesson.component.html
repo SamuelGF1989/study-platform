@@ -1,10 +1,6 @@
 <header class="header" *ngIf="currentUser$ | async as user">
   <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
 
-  <div class="greeting">
-    <h1>Hola, {{ user.displayName || 'Usuario' }} 👋 ¿Listo para aprender algo nuevo hoy?</h1>
-  </div>
-
   <div class="avatar" (click)="toggleLogoutCard()">
     <img
       [src]="user.photoURL ? user.photoURL : defaultAvatar"
@@ -23,6 +19,7 @@
   <ul>
     <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
     <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+    <li><a (click)="router.navigate(['/resources']); closeMenu()">Recursos</a></li>
   </ul>
 </nav>
 
@@ -32,7 +29,8 @@
 <div *ngIf="lesson$ | async as lesson; else loading" class="lesson-container">
   <section class="lesson-info">
     <h1 class="lesson-title">{{ lesson.title }}</h1>
-    <p class="lesson-description">{{ lesson.description }}</p>
+    <!-- Cambio realizado aquí: -->
+    <markdown class="lesson-description" [data]="lesson.description"></markdown>
   </section>
 
   <section class="video-wrapper" style="margin-top: 1.5rem;">

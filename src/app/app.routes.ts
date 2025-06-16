@@ -6,6 +6,7 @@ import { AuthRedirectGuard } from './guards/auth-redirect.guard';
 import { adminGuard } from './guards/admin.guard';
 import { LessonComponent } from './pages/lesson/lesson.component';
 import { VideosComponent } from './pages/videos/videos.component';
+import { ResourcesComponent } from './pages/resources/resources.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', component: HomeComponent } ,
   { path: 'videos', component: VideosComponent },
+  { path: 'resources', component: ResourcesComponent },
   {path:'register',component: RegisterComponent},
   {
   path: 'admin',

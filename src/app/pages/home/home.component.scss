@@ -14,23 +14,14 @@
   border-bottom: 1px solid #e0e0e0;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between; /* aquí no se toca */
+  justify-content: space-between;
   align-items: center;
   z-index: 1000;
 }
 
-.greeting {
-  h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  p {
-    margin: 0.25rem 0 0;
-    font-size: 1rem;
-    color: #555;
-  }
+/* Elimina el greeting del header */
+.header .greeting {
+  display: none;
 }
 
 .avatar {
@@ -43,7 +34,6 @@
   align-items: center;
   justify-content: center;
   background-color: #f0f0f0;
-
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -75,9 +65,7 @@
   z-index: 1100;
 }
 
-/* --- Estilos nuevos para menú hamburguesa --- */
-
-/* Botón hamburguesa */
+/* Menú hamburguesa */
 .hamburger-btn {
   font-size: 2rem;
   background: none;
@@ -95,11 +83,10 @@
   color: #478ed1;
 }
 
-/* Menú lateral */
 .side-menu {
   position: fixed;
-  top: 72px; /* justo debajo del header */
-  left: -250px; /* oculto a la izquierda */
+  top: 72px;
+  left: -250px;
   width: 250px;
   height: 100vh;
   background-color: white;
@@ -139,7 +126,6 @@
   color: #478ed1;
 }
 
-/* Overlay para cerrar menú */
 .overlay {
   position: fixed;
   top: 72px;
@@ -150,17 +136,30 @@
   z-index: 1100;
 }
 
+/* Contenido principal ajustado */
 .main-content {
-  margin-top: 100px;
-  padding: 2rem;
-  height: calc(100vh - 100px);
+  margin-top: 72px;
+  padding: 0 30px;
+  height: calc(100vh - 72px);
   overflow-y: auto;
 }
 
+/* Estilo del saludo integrado */
+.user-greeting {
+  margin-top: 40px;
+  padding: 15px 0 10px 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  position: static;
+}
+
+/* Grid de lecciones ajustado */
 .lessons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 1.5rem;
+  margin-top: 0;
 }
 
 .lesson-card {
@@ -197,7 +196,7 @@
 
 .progress-bar {
   height: 100%;
-  background-color: #3f51b5; /* color primario */
+  background-color: #3f51b5;
   transition: width 0.3s ease;
 }
 
@@ -206,4 +205,82 @@
   color: #555;
   margin-bottom: 1rem;
 }
+
+.daily-advice {
+  display: flex;
+  justify-content: flex-start; /* alineado a la izquierda */
+  margin: 1rem 0;
+}
+
+.daily-advice mat-card {
+  max-width: 400px;
+  width: 90%;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #e0f7fa, #80deea);
+  color: #004d40;
+  border-radius: 16px;
+  text-align: left; /* texto alineado a la izquierda */
+  margin-bottom: 20px;
+}
+
+.daily-advice h3 {
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+}
+
+.daily-advice p {
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+  font-style: italic;
+}
+
+.daily-advice button {
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.4rem 1.2rem;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  text-transform: none;
+  min-width: 120px;
+  cursor: pointer;
+}
+
+.daily-advice button:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 12px rgba(0, 86, 179, 0.5);
+}
+.progress-card {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  h3 {
+    margin-bottom: 12px;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .custom-progress-bar {
+    height: 20px;
+    border-radius: 10px;
+    margin: 12px 0;
+    background-color: #e0e0e0;
+
+    ::ng-deep .mat-progress-bar-fill::after {
+      border-radius: 10px;
+    }
+  }
+
+  .progress-label {
+    font-weight: 500;
+    color: #555;
+    margin-top: 4px;
+  }
+}
+
 

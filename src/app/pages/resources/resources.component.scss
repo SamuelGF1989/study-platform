@@ -1,70 +1,7 @@
-.videos-container {
-  padding: 2rem;
-  background-color: #f7f9fc;
-  min-height: 100vh;
-}
-
-.main-title {
-  text-align: center;
-  font-size: 2rem;
-  margin-bottom: 2rem;
-  color: #1974a2;
-}
-
-.tema-section {
-  margin-bottom: 3rem;
-}
-
-.tema-title {
-  margin-top: 60px;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #145a7e;
-}
-
-.videos-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-.video-card {
-  background-color: #fff;
-  border-radius: 12px;
+:host {
+  display: block;
+  height: 100vh;
   overflow: hidden;
-  transition: transform 0.3s ease;
-}
-
-.video-card:hover {
-  transform: translateY(-5px);
-}
-
-.video-wrapper {
-  position: relative;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
-}
-
-.video-wrapper iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  border-radius: 0;
-}
-
-.video-title {
-  font-size: 1.1rem;
-  margin-top: 1rem;
-  color: #222;
-  font-weight: 600;
-}
-
-.video-desc {
-  font-size: 0.9rem;
-  color: #666;
-  margin-top: 0.5rem;
 }
 
 .header {
@@ -77,23 +14,14 @@
   border-bottom: 1px solid #e0e0e0;
   padding: 1rem 2rem;
   display: flex;
-  justify-content: space-between; /* aquí no se toca */
+  justify-content: space-between;
   align-items: center;
   z-index: 1000;
 }
 
-.greeting {
-  h1 {
-    margin: 0;
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-
-  p {
-    margin: 0.25rem 0 0;
-    font-size: 1rem;
-    color: #555;
-  }
+/* Elimina el greeting del header */
+.header .greeting {
+  display: none;
 }
 
 .avatar {
@@ -106,7 +34,6 @@
   align-items: center;
   justify-content: center;
   background-color: #f0f0f0;
-
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -138,9 +65,7 @@
   z-index: 1100;
 }
 
-/* --- Estilos nuevos para menú hamburguesa --- */
-
-/* Botón hamburguesa */
+/* Menú hamburguesa */
 .hamburger-btn {
   font-size: 2rem;
   background: none;
@@ -158,11 +83,10 @@
   color: #478ed1;
 }
 
-/* Menú lateral */
 .side-menu {
   position: fixed;
-  top: 72px; /* justo debajo del header */
-  left: -250px; /* oculto a la izquierda */
+  top: 72px;
+  left: -250px;
   width: 250px;
   height: 100vh;
   background-color: white;
@@ -202,7 +126,6 @@
   color: #478ed1;
 }
 
-/* Overlay para cerrar menú */
 .overlay {
   position: fixed;
   top: 72px;
@@ -213,3 +136,63 @@
   z-index: 1100;
 }
 
+
+.download-cards {
+  margin-top: 100px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 1rem;
+  background-color: #f5f7fa;
+  max-width: 1200px;
+  align-content: start; /* evita que grid estire verticalmente */
+}
+
+.download-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 160px; /* para que no sean muy cortas, altura flexible */
+}
+.download-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+
+mat-card-content h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #222;
+  margin: 1rem 1rem 0.5rem 1rem;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+mat-card-actions {
+  padding: 0 1rem 1rem 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button[mat-raised-button] {
+  background-color: #007bff;
+  color: white;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  box-shadow: 0 4px 8px rgba(0,123,255,0.3);
+  transition: background-color 0.3s ease;
+}
+
+button[mat-raised-button]:hover {
+  background-color: #0056b3;
+  box-shadow: 0 6px 12px rgba(0,86,179,0.5);
+}
+
+a {
+  text-decoration: none;
+}

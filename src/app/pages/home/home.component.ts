@@ -7,11 +7,16 @@ import { User } from '@angular/fire/auth';
 import { MatCardModule } from '@angular/material/card';
 import { Router } from '@angular/router';
 import { Lesson } from '../../models/lesson.model';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+
+
+// Importa los consejos
+import { consejosProgramacionC } from '../../models/tips';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, MatCardModule],
+  imports: [CommonModule, MatCardModule,MatProgressBarModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -26,7 +31,15 @@ export class HomeComponent implements OnInit {
   showLogoutCard = false;
   menuOpen = false;
 
+  // Nueva propiedad para consejo
+  consejoDelDia: string = '';
+
+  // Nueva propiedad para progreso general
+  progresoGeneral: number = 0;
+
   ngOnInit() {
+    this.mostrarConsejoAleatorio();
+
     this.currentUser$.subscribe(user => {
       if (!user?.uid) return;
 
@@ -38,6 +51,14 @@ export class HomeComponent implements OnInit {
                 ...lesson,
                 progress: progressMap[lesson.id] || 0
               }));
+
+              // Calcular progreso general como promedio del progreso de todas las lecciones,
+              // usando ?? 0 para evitar undefined
+              const totalProgreso = this.lessons.reduce(
+                (acc, lesson) => acc + (lesson.progress ?? 0),
+                0
+              );
+              this.progresoGeneral = this.lessons.length ? totalProgreso / this.lessons.length : 0;
             },
             error: (err) => {
               console.error('Error al obtener progreso:', err);
@@ -45,6 +66,7 @@ export class HomeComponent implements OnInit {
                 ...lesson,
                 progress: 0
               }));
+              this.progresoGeneral = 0;
             }
           });
         },
@@ -53,6 +75,11 @@ export class HomeComponent implements OnInit {
         }
       });
     });
+  }
+
+  mostrarConsejoAleatorio() {
+    const index = Math.floor(Math.random() * consejosProgramacionC.length);
+    this.consejoDelDia = consejosProgramacionC[index];
   }
 
   toggleLogoutCard() {
@@ -75,10 +102,10 @@ export class HomeComponent implements OnInit {
   }
 
   toggleMenu() {
-  this.menuOpen = !this.menuOpen;
-}
+    this.menuOpen = !this.menuOpen;
+  }
 
-closeMenu() {
-  this.menuOpen = false;
-}
+  closeMenu() {
+    this.menuOpen = false;
+  }
 }

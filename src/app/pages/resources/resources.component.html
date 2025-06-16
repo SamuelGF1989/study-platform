@@ -1,0 +1,55 @@
+<header class="header">
+  <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
+
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="(currentUser$ | async)?.photoURL || defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<!-- Menú hamburguesa lateral -->
+<nav class="side-menu" [class.open]="menuOpen">
+  <ul>
+    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
+    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+    <li><a (click)="router.navigate(['/resources']); closeMenu()">Recursos</a></li>
+  </ul>
+</nav>
+
+<!-- Overlay para cerrar menú cuando está abierto -->
+<div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
+
+<main class="main-content">
+  <div class="user-greeting">
+    <ng-container *ngIf="currentUser$ | async as user; else loadingUser">
+      <h1>Hola, {{ user.displayName || 'Usuario' }} 💤 ¿Listo para aprender algo nuevo hoy?</h1>
+    </ng-container>
+    <ng-template #loadingUser>
+      <h1>Cargando usuario...</h1>
+    </ng-template>
+  </div>
+
+  <!-- Resto de tu contenido aquí -->
+</main>
+
+
+<div class="download-cards">
+  <mat-card *ngFor="let file of downloads" class="download-card">
+    <mat-card-content>
+      <h3>{{ file.name }}</h3>
+    </mat-card-content>
+    <mat-card-actions>
+      <a [href]="file.url" target="_blank" rel="noopener noreferrer" download>
+        <button mat-raised-button color="primary">Descargar</button>
+      </a>
+    </mat-card-actions>
+  </mat-card>
+</div>
+

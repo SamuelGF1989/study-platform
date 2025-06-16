@@ -1,1 +1,53 @@
-<p>videos works!</p>
+<header class="header" *ngIf="currentUser$ | async as user">
+  <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
+
+
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="user.photoURL ? user.photoURL : defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<!-- Menú hamburguesa lateral -->
+<nav class="side-menu" [class.open]="menuOpen">
+  <ul>
+    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
+    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
+  </ul>
+</nav>
+
+<!-- Overlay para cerrar menú cuando está abierto -->
+<div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
+
+
+
+
+<div class="videos-container">
+  <h1 class="main-title">Explora nuestros videos por tema</h1>
+
+  <div *ngFor="let tema of temas" class="tema-section">
+    <h2 class="tema-title">{{ tema.nombre }}</h2>
+
+    <div class="videos-grid">
+      <mat-card *ngFor="let video of tema.videos" class="video-card mat-elevation-z4">
+        <div class="video-wrapper">
+          <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(video.url)"
+                  frameborder="0"
+                  allowfullscreen>
+          </iframe>
+        </div>
+        <mat-card-content>
+          <h3 class="video-title">{{ video.titulo }}</h3>
+          <p class="video-desc">{{ video.descripcion }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

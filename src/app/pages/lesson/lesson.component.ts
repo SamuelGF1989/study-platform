@@ -11,13 +11,14 @@ import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { firstValueFrom } from 'rxjs';
 import { QuizzComponent } from '../quizz/quizz.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @Component({
   selector: 'app-lesson',
   templateUrl: './lesson.component.html',
   styleUrls: ['./lesson.component.scss'],
   standalone: true,
-  imports: [CommonModule, MatCardModule,QuizzComponent],
+  imports: [CommonModule, MatCardModule,QuizzComponent,MarkdownModule],
 })
 export class LessonComponent implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
