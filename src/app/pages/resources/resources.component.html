@@ -17,9 +17,12 @@
 <!-- Menú hamburguesa lateral -->
 <nav class="side-menu" [class.open]="menuOpen">
   <ul>
-    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
-    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
-    <li><a (click)="router.navigate(['/resources']); closeMenu()">Recursos</a></li>
+<li><a (click)="router.navigate(['/home']); closeMenu()">🏠 Home</a></li>
+<li><a (click)="router.navigate(['/videos']); closeMenu()">🎥 Videos</a></li>
+<li><a (click)="router.navigate(['/resources']); closeMenu()">📚 Recursos</a></li>
+<li><a (click)="router.navigate(['/foro']); closeMenu()">💬 Foro</a></li>
+<li><a (click)="router.navigate(['/introduccion']); closeMenu()">📖 Introducción</a></li>
+
   </ul>
 </nav>
 

@@ -17,9 +17,12 @@
 <!-- Menú hamburguesa lateral -->
 <nav class="side-menu" [class.open]="menuOpen">
   <ul>
-    <li><a (click)="router.navigate(['/home']); closeMenu()">Home</a></li>
-    <li><a (click)="router.navigate(['/videos']); closeMenu()">Videos</a></li>
-    <li><a (click)="router.navigate(['/resources']); closeMenu()">Recursos</a></li>
+<li><a (click)="router.navigate(['/home']); closeMenu()">🏠 Home</a></li>
+<li><a (click)="router.navigate(['/videos']); closeMenu()">🎥 Videos</a></li>
+<li><a (click)="router.navigate(['/resources']); closeMenu()">📚 Recursos</a></li>
+<li><a (click)="router.navigate(['/foro']); closeMenu()">💬 Foro</a></li>
+<li><a (click)="router.navigate(['/introduccion']); closeMenu()">📖 Introducción</a></li>
+
   </ul>
 </nav>
 
@@ -57,8 +60,21 @@
 </section>
 
 
+  <section class="search-bar">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar lección</mat-label>
+      <input
+        matInput
+        [(ngModel)]="searchTerm"
+        placeholder="Escribe el título de la lección"
+      />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </section>
+
+
   <section class="lessons-grid">
-    <div *ngFor="let lesson of lessons" class="lesson-card">
+    <div *ngFor="let lesson of filteredLessons()" class="lesson-card">
       <img [src]="'assets/quiz.png'" alt="{{lesson.title}}" class="lesson-image" />
       <h2 class="lesson-title">{{ lesson.title }}</h2>
       <div class="progress-bar-container">
@@ -70,4 +86,22 @@
       </button>
     </div>
   </section>
+
+  <section class="c-compiler">
+  <mat-card class="compiler-card">
+    <h3>Prueba tu código en C ❯</h3>
+    <mat-form-field appearance="fill" class="compiler-field">
+      <mat-label>Código en C</mat-label>
+      <textarea matInput [(ngModel)]="codigoC" rows="10"
+  placeholder="#include &lt;stdio.h&gt;&#10;int main() {&#10;  printf(&quot;Hola mundo\n&quot;);&#10;  return 0;&#10;}"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" (click)="ejecutarCodigo()">Ejecutar</button>
+
+    <div class="output-section" *ngIf="resultadoCompilacion">
+      <h4>Salida:</h4>
+      <pre>{{ resultadoCompilacion }}</pre>
+    </div>
+  </mat-card>
+</section>
 </main>

@@ -1,5 +1,8 @@
 <ng-container *ngIf="quizzes && currentIndex < quizzes.length; else noQuizzes">
 
+  <!-- Contador de preguntas -->
+  <p class="quiz-counter">Pregunta {{ currentIndex + 1 }} de {{ quizzes.length }}</p>
+
   <h3>{{ quizzes[currentIndex].question }}</h3>
 
   <ul>
@@ -15,16 +18,15 @@
   </ul>
 
   <div *ngIf="selectedAnswer !== null">
-  <p *ngIf="isAnswerCorrect" style="color: green;">¡Respuesta correcta! ✅</p>
-  <p *ngIf="isAnswerCorrect === false" style="color: red;">
-    Respuesta incorrecta ❌. La respuesta correcta es: {{ quizzes[currentIndex].correctAnswer }}
-  </p>
+    <p *ngIf="isAnswerCorrect" style="color: green;">¡Respuesta correcta! ✅</p>
+    <p *ngIf="isAnswerCorrect === false" style="color: red;">
+      Respuesta incorrecta ❌. La respuesta correcta es: {{ quizzes[currentIndex].correctAnswer }}
+    </p>
 
-  <p><em>{{ fraseMotivadora }}</em></p>
+    <p><em>{{ fraseMotivadora }}</em></p>
 
-  <button (click)="nextQuestion()">Siguiente</button>
-</div>
-
+    <button (click)="nextQuestion()">Siguiente</button>
+  </div>
 
 </ng-container>
 

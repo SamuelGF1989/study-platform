@@ -1,0 +1,84 @@
+<header class="header" *ngIf="currentUser$ | async as user">
+  <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
+
+  <div class="avatar" (click)="toggleLogoutCard()">
+    <img
+      [src]="user.photoURL ? user.photoURL : defaultAvatar"
+      alt="Avatar"
+      class="avatar-image"
+    />
+  </div>
+
+  <mat-card *ngIf="showLogoutCard" class="logout-card" (click)="$event.stopPropagation()">
+    <button mat-button (click)="logout()">Cerrar sesión</button>
+  </mat-card>
+</header>
+
+<!-- Menú hamburguesa lateral -->
+<nav class="side-menu" [class.open]="menuOpen">
+  <ul>
+<li><a (click)="router.navigate(['/home']); closeMenu()">🏠 Home</a></li>
+<li><a (click)="router.navigate(['/videos']); closeMenu()">🎥 Videos</a></li>
+<li><a (click)="router.navigate(['/resources']); closeMenu()">📚 Recursos</a></li>
+<li><a (click)="router.navigate(['/foro']); closeMenu()">💬 Foro</a></li>
+<li><a (click)="router.navigate(['/introduccion']); closeMenu()">📖 Introducción</a></li>
+
+  </ul>
+</nav>
+
+<!-- Overlay para cerrar menú cuando está abierto -->
+<div *ngIf="menuOpen" class="overlay" (click)="closeMenu()"></div>
+
+<h2>Foro de estudiantes</h2>
+
+<form (ngSubmit)="crearPost()" class="post-form">
+  <textarea [(ngModel)]="nuevoPost" name="contenido" placeholder="¿Qué quieres compartir hoy?" required rows="3"></textarea>
+  <button mat-raised-button color="primary" type="submit">Publicar</button>
+</form>
+
+<div class="posts-container">
+  <div class="post" *ngFor="let post of posts$ | async">
+    <div class="post-header">
+      <strong>{{ post.authorName }}</strong>
+      <span class="post-date">{{ post.timestamp | date:'short' }}</span>
+    </div>
+
+    <p class="post-content">{{ post.content }}</p>
+
+    <!-- Botón de Like -->
+    <button mat-button
+            (click)="darLike(post)"
+            [color]="likedPostIds.has(post.id!) ? 'warn' : ''"
+            [class.liked]="likedPostIds.has(post.id!)"
+            aria-label="Like post">
+      <mat-icon class="like-icon">
+        {{ likedPostIds.has(post.id!) ? 'favorite' : 'favorite_border' }}
+      </mat-icon>
+      <span class="like-count">{{ post.likes }}</span>
+    </button>
+
+    <!-- Sección de comentarios -->
+    <div class="comments-section">
+      <h4>Comentarios</h4>
+
+      <!-- Lista de comentarios -->
+      <div class="comment" *ngFor="let comment of comentarios[post.id!]">
+        <div class="comment-header">
+          <strong>{{ comment.authorName }}</strong>
+          <small class="comment-date">{{ comment.timestamp | date:'shortTime' }}</small>
+        </div>
+        <div class="comment-content">{{ comment.content }}</div>
+      </div>
+
+      <!-- Formulario para nuevo comentario -->
+      <form (ngSubmit)="crearComentario(post.id!)" class="comment-form">
+        <input type="text"
+               [(ngModel)]="nuevoComentario[post.id!]"
+               name="comentario-{{post.id}}"
+               placeholder="Escribe un comentario..."
+               required />
+        <button mat-button type="submit">Comentar</button>
+      </form>
+    </div>
+  </div>
+</div>

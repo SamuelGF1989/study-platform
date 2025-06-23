@@ -9,10 +9,24 @@ import {
   createUserWithEmailAndPassword,
   updateProfile
 } from '@angular/fire/auth';
-import { Firestore, doc, setDoc, docData, collection } from '@angular/fire/firestore';
+import {
+  Firestore,
+  doc,
+  setDoc,
+  docData,
+  collection,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  query,
+  orderBy,
+  collectionData
+} from '@angular/fire/firestore';
 import { AppUser } from '../models/user.model';
 import { BehaviorSubject, Observable, from, of } from 'rxjs';
 import { switchMap, take, tap } from 'rxjs/operators';
+import { ForumPost } from '../models/forumPost.model';
+import { ForumComment } from '../models/forumComment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +55,7 @@ export class AuthService {
     );
   }
 
-  // Método mejorado para registro
+  // Registro mejorado
   registerWithEmail(name: string, email: string, password: string): Observable<User> {
     return from(
       createUserWithEmailAndPassword(this.auth, email, password)
@@ -62,16 +76,12 @@ export class AuthService {
           const userRef = doc(this.firestore, `users/${user.uid}`);
           await setDoc(userRef, userData);
 
-          // Crear subcolección inicial vacía (opcional)
-          const userLessonsRef = collection(this.firestore, `users/${user.uid}/userLessons`);
-          // No necesitamos documentos iniciales aquí
-
           return user;
         })
     );
   }
 
-  // Método para actualizar progreso de lección
+  // Actualizar progreso lección (tu lógica actual)
   async updateLessonProgress(lessonId: string, progress: number): Promise<void> {
     const user = this.auth.currentUser;
     if (!user) throw new Error('Usuario no autenticado');
@@ -86,7 +96,6 @@ export class AuthService {
     await setDoc(userLessonRef, lessonData, { merge: true });
   }
 
-  // Obtener progreso de lección
   getLessonProgress(lessonId: string): Observable<any> {
     const user = this.auth.currentUser;
     if (!user) return of(null);
@@ -95,7 +104,7 @@ export class AuthService {
     return docData(userLessonRef);
   }
 
-  // Métodos existentes (login, logout, etc.) se mantienen igual...
+  // Login
   loginEmailPassword(email: string, password: string): Observable<User | null> {
     return from(signInWithEmailAndPassword(this.auth, email, password)).pipe(
       switchMap(({ user }) => this.updateUserData(user))
@@ -138,11 +147,51 @@ export class AuthService {
     return this.auth.signOut();
   }
 
-  // En tu auth.service.ts
-getUserData(uid: string): Observable<AppUser> {
-  const userRef = doc(this.firestore, `users/${uid}`);
-  return docData(userRef) as Observable<AppUser>;
+  getUserData(uid: string): Observable<AppUser> {
+    const userRef = doc(this.firestore, `users/${uid}`);
+    return docData(userRef) as Observable<AppUser>;
+  }
+
+  // --- MÉTODOS DEL FORO ---
+
+  // Obtener posts ordenados por fecha (desc)
+  getForumPosts(): Observable<ForumPost[]> {
+    const postsRef = collection(this.firestore, 'forumPosts');
+    const postsQuery = query(postsRef, orderBy('timestamp', 'desc'));
+    return collectionData(postsQuery, { idField: 'id' }) as Observable<ForumPost[]>;
+  }
+
+  // Agregar post nuevo
+  addForumPost(post: ForumPost): Promise<void> {
+    const postsRef = collection(this.firestore, 'forumPosts');
+    return addDoc(postsRef, post).then(() => {});
+  }
+
+  // Actualizar likes de post
+  updateForumPostLikes(postId: string, likes: number): Promise<void> {
+    const postRef = doc(this.firestore, `forumPosts/${postId}`);
+    return updateDoc(postRef, { likes });
+  }
+
+  // Eliminar post (opcional)
+  deleteForumPost(postId: string): Promise<void> {
+    const postRef = doc(this.firestore, `forumPosts/${postId}`);
+    return deleteDoc(postRef);
+  }
+
+// Método usado en ForoComponent para añadir comentario
+addCommentToPost(postId: string, comment: ForumComment): Promise<void> {
+  const commentsRef = collection(this.firestore, `forumPosts/${postId}/comments`);
+  return addDoc(commentsRef, {
+    ...comment,
+    timestamp: new Date()
+  }).then(() => {});
 }
 
-
+// Método usado en ForoComponent para obtener comentarios
+getCommentsForPost(postId: string): Observable<ForumComment[]> {
+  const commentsRef = collection(this.firestore, `forumPosts/${postId}/comments`);
+  const q = query(commentsRef, orderBy('timestamp', 'asc'));
+  return collectionData(q, { idField: 'id' }) as Observable<ForumComment[]>;
+}
 }

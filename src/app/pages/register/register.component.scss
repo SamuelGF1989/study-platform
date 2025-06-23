@@ -1,10 +1,31 @@
-.background {
+.login-container {
+  display: flex;
   height: 100vh;
   width: 100vw;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: #1974a2; /* azul claro */
-  z-index: -1;
+}
+
+.left-panel {
+  flex: 1;
+  background-color: #1974a2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-logo {
+  width: 60%;
+  max-width: 400px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+.right-panel {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
 }
 
 .corner-image {
@@ -16,7 +37,7 @@
 }
 
 .corner-image img {
-  width: 400px;
+  width: 200px;
   height: auto;
   opacity: 0.9;
   transition: transform 0.3s ease;
@@ -29,59 +50,29 @@
 
 .login-card {
   max-width: 420px;
-  margin: 2rem auto;
+  width: 100%;
   padding: 2rem;
   border-radius: 12px;
-  background-color: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 8px 16px rgba(63, 81, 181, 0.15);
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
 }
 
-/* Campos de formulario con texto visible y buen espaciado */
-.login-card .mat-form-field-label {
-  color: #1a237e !important; /* Azul oscuro */
+.login-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-title {
+  font-size: 1.8rem;
   font-weight: 600;
-  font-size: 1rem;
+  color: #1974a2;
 }
 
-.login-card .mat-mdc-input-element {
-  color: #1a237e !important; /* Texto azul oscuro */
-  font-weight: 500;
-  font-size: 1rem;
-  padding: 14px 16px !important;
-  line-height: 1.4;
-}
-
-.login-card .mat-mdc-input-element::placeholder {
-  color: #5c6bc0 !important;
-  font-style: italic;
-  opacity: 1 !important;
-  font-size: 1rem;
-  line-height: 1.4;
-}
-
-.login-card .mat-form-field-suffix .mat-icon {
-  color: #3f51b5;
-}
-
-.login-card .mat-form-field-appearance-outline .mat-mdc-form-field-outline {
-  border-color: #3f51b5;
-  border-width: 2px;
-  border-radius: 8px;
-  transition: border-color 0.3s ease;
-}
-
-.login-card .mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
-  border-color: #1a237e;
-  border-width: 3px;
-}
-
-/* Evitar que el texto se encime */
-.login-card .mat-mdc-form-field-flex {
-  padding: 0 12px !important;
-}
-
-.login-card .mat-mdc-form-field-wrapper {
-  min-height: 56px !important;
+.email-label,
+.contrasenia-label,
+.mat-mdc-floating-label {
+  color: #1974a2 !important;
+  font-weight: 600;
 }
 
 .full-width {
@@ -90,19 +81,45 @@
 }
 
 .login-button {
+  background-color: #1974a2;
+  color: white;
   padding: 0.5rem;
   font-size: 1rem;
   margin-top: 0.5rem;
-  background-color: #1974a2;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .login-button:hover {
-  background-color: #135c80;
+  background-color: #145a7e;
+}
+
+.mat-form-field-appearance-outline .mat-mdc-form-field-outline {
+  border-color: #1974a2;
+  border-width: 2px;
+  border-radius: 8px;
+  transition: border-color 0.3s ease;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline {
+  border-color: #145a7e;
+  border-width: 3px;
+}
+
+.mat-mdc-input-element::placeholder {
+  color: #aaa;
+  font-style: italic;
+  opacity: 1;
+}
+
+.mat-mdc-input-element {
+  color: #222;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 12px 14px;
+}
+
+.mat-form-field-suffix .mat-icon {
+  color: #1974a2;
 }
 
 .mat-raised-button:hover,
@@ -111,12 +128,11 @@
   transition: transform 0.2s ease;
 }
 
-mat-error, .error-msg {
-  font-size: 0.85rem;
+.error-msg {
   color: #d32f2f;
-  font-weight: 600;
   margin-top: 1rem;
   text-align: center;
+  font-weight: 500;
 }
 
 .login-actions {
@@ -129,22 +145,9 @@ mat-error, .error-msg {
 .action-link {
   text-decoration: none;
   font-weight: 500;
-  color: #3f51b5;
+  color: #1974a2;
 }
 
 .action-link:hover {
   text-decoration: underline;
-}
-
-.login-logo {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-  margin-bottom: -1rem;
-}
-
-.login-logo img {
-  width: 120px;
-  height: auto;
-  border-radius: 8px;
 }

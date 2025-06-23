@@ -1,7 +1,6 @@
 <header class="header" *ngIf="currentUser$ | async as user">
   <button class="hamburger-btn" (click)="toggleMenu()">☰</button>
 
-
   <div class="avatar" (click)="toggleLogoutCard()">
     <img
       [src]="user.photoURL ? user.photoURL : defaultAvatar"
@@ -33,25 +32,21 @@
 
 
 
-<div class="videos-container">
-  <h1 class="main-title">Explora nuestros videos por tema</h1>
+<div class="lesson-container">
+  <h1 class="lesson-title">{{ content.title }}</h1>
+  <p class="lesson-description">{{ content.description }}</p>
 
-  <div *ngFor="let tema of temas" class="tema-section">
-    <h2 class="tema-title">{{ tema.nombre }}</h2>
+  <div *ngFor="let section of content.sections; trackBy: trackByIndex" class="section">
+    <h2>{{ section.title }}</h2>
 
-    <div class="videos-grid">
-      <mat-card *ngFor="let video of tema.videos" class="video-card mat-elevation-z4">
-        <div class="video-wrapper">
-          <iframe [src]="sanitizer.bypassSecurityTrustResourceUrl(video.url)"
-                  frameborder="0"
-                  allowfullscreen>
-          </iframe>
-        </div>
-        <mat-card-content>
-          <h3 class="video-title">{{ video.titulo }}</h3>
-          <p class="video-desc">{{ video.descripcion }}</p>
-        </mat-card-content>
-      </mat-card>
+    <div *ngIf="!section.isList && !section.isCode">
+      <p>{{ section.text }}</p>
     </div>
+
+    <ul *ngIf="section.isList">
+      <li *ngFor="let item of section.items">{{ item }}</li>
+    </ul>
+
+    <pre *ngIf="section.isCode"><code>{{ section.code }}</code></pre>
   </div>
 </div>
